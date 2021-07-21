@@ -33,7 +33,7 @@ router.post('/', (req, res, next) => {
     .save()
     .then(result => {
       res.status(201).json({
-        message: 'Handling POST /product route',
+        message: 'Created Product successfully',
         cretedProduct: result
       });
     })
@@ -85,7 +85,10 @@ router.delete('/:productID', (req, res, next) => {
   Product.remove({_id: id})
     .exec()
     .then(result => {
-      res.status(200).json(result);
+      res.status(200).json({
+        message: "Product Deleted",
+        result
+      });
     })
     .catch(err => {
       res.status(500).json({
