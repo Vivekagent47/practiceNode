@@ -2,7 +2,9 @@ const express = require('express');
 const Product = require('../models/product');
 const mongoose = require('mongoose');
 const multer = require('multer');
+const checkAuth = require('../middleware/check-auth');
 
+// Multer function for filter and storage the image
 const storage = multer.diskStorage({
   destination: function(req, file, cb) {
     cb(null, './uploads/');
@@ -29,19 +31,14 @@ const upload = multer({
   fileFilter: fileFilter
 });
 
+//Routes
 const router = express.Router();
 
 router.get('/', (req, res, next) => {
   Product.find()
     .exec()
     .then(data => {
-      // if(data.length >= 0){
       res.status(200).json(data);
-      // } else {
-      //   res.status(404).json({
-      //     message: 'No entry found'
-      //   })
-      // }
     })
     .catch(err => {
       res.status(500).json({
@@ -50,10 +47,9 @@ router.get('/', (req, res, next) => {
     });
 });
 
-router.post('/', upload.single('productImg'), (req, res, next) => {
-  console.log(req.file);
+router.post('/', [checkAuth, upload.single('productImg')], (req, res, next) => {
   const product = new Product({
-    _id: mongoose.Types.ObjectId(),
+    _id: new mongoose.Types.ObjectId(),
     name: req.body.name,
     price: req.body.price,
     productImg: req.file.path

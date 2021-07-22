@@ -1,6 +1,7 @@
 const express = require('express');
 const productRoute = require('./api/route/product');
 const orderRoute = require('./api/route/order');
+const userRoute = require('./api/route/user');
 const morgan = require('morgan');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
@@ -21,9 +22,6 @@ mongoose
 app.use(morgan('dev'));
 app.use("/uploads", express.static("uploads"));
 app.use(express.json());
-app.use(bodyParser.urlencoded({extended: false}));
-app.use(bodyParser.json());
-
 app.use((req, res, next) => {
   res.header("Access-Control-Allow-Origin", "*");
   res.header("Access-Control-Allow-Headers", "Origin, X-Request-With, Content-Type, Accept, Authorization");
@@ -38,6 +36,7 @@ app.use((req, res, next) => {
 // All Routes
 app.use('/product', productRoute);
 app.use('/order', orderRoute);
+app.use('/user', userRoute);
 
 app.use((req, res, next) => {
   const error = new Error('Not found');
