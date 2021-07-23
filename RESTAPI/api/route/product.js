@@ -87,7 +87,7 @@ router.get('/:productID', (req, res, next) => {
     });
 });
 
-router.put('/:productID', (req, res, next) => {
+router.put('/:productID', checkAuth, (req, res, next) => {
   
   if (!req.body) {
     return res.status(400).send({
@@ -105,7 +105,7 @@ router.put('/:productID', (req, res, next) => {
     })
 });
 
-router.delete('/:productID', (req, res, next) => {
+router.delete('/:productID', checkAuth, (req, res, next) => {
   const id = req.params.productID;
   Product.remove({_id: id})
     .exec()
