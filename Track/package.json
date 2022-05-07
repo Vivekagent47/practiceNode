@@ -1,0 +1,25 @@
+{
+  "name": "track",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.19.0",
+    "body-parser": "^1.18.2",
+    "express": "^4.16.2",
+    "form-data": "^2.3.2",
+    "morgan": "^1.9.0",
+    "querystring": "^0.2.0",
+    "request": "^2.85.0",
+    "tabletojson": "git+https://github.com/iaincollins/tabletojson.git"
+  },
+  "devDependencies": {
+    "nodemon": "^1.14.12"
+  }
+}
