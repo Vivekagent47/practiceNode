@@ -8,6 +8,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 let bluedart = require("./api/bluedart.js");
+let dhl = require("./api/dhl.js");
 
 app.use((req, res, next) => {
   res.header("Access-Control-Allow-Origin", "*");
@@ -23,6 +24,7 @@ app.use((req, res, next) => {
 });
 
 app.use("/bluedart", bluedart);
+app.use("/dhl", dhl);
 
 app.use((req, res, next) => {
   const error = new Error("Not Found");
