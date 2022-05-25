@@ -7,24 +7,16 @@ router.get("/:awb", (req, res) => {
   const trackingId = req.params.awb;
 
   axios
-    .get(`https://www.dhl.co.in/shipmentTracking?AWB=${trackingId}`)
-    .then(({ data }) => {
-      if (data.errors) {
-        res.send({ result: `Invalid Tracking No. ${trackingId}` });
+    .get(
+      `https://api-eu.dhl.com/track/shipments?trackingNumber=${trackingId}`,
+      {
+        headers: {
+          "DHL-API-Key": "beT2XKtFly2AsAMyc1OehKNFJP8MfjwB",
+        },
       }
-      console.warn(data.results[0].checkpoints);
-      let final = data.results[0].checkpoints.reduce(
-        (acc, current) => [
-          ...acc,
-          {
-            location: current.location,
-            detail: current.description,
-            date: `${current.date}`,
-          },
-        ],
-        []
-      );
-      res.send({ result: final });
+    )
+    .then(({ data }) => {
+      res.send(data);
     })
     .catch((err) => {
       res.send({

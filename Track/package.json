@@ -18,7 +18,7 @@
     "mysql": "^2.18.1",
     "querystring": "^0.2.0",
     "request": "^2.85.0",
-    "tabletojson": "git+https://github.com/iaincollins/tabletojson.git"
+    "tabletojson": "github:iaincollins/tabletojson"
   },
   "devDependencies": {
     "nodemon": "^1.14.12"
