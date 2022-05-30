@@ -13,13 +13,20 @@ router.get("/:awb", (req, res) => {
       },
     })
     .then((response) => {
-      res.send({
-        status:
-          `${response.data.data[trackingId].current_status}`.toLowerCase(),
-      });
+      if (response.data.status === "error") {
+        res.send({
+          status: response.data.message,
+        });
+      } else {
+        res.send({
+          status:
+            `${response.data.data[trackingId].current_status}`.toLowerCase(),
+        });
+      }
     })
     .catch((err) => {
-      res.json({
+      console.log(err);
+      res.send({
         error: err,
       });
     });
