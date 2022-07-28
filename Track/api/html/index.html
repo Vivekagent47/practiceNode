@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Order Summary</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fetch/0.10.1/fetch.min.js"></script>
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Red+Hat+Display:wght@500;700;900&display=swap");
+      :root {
+        --pale-blue: hsl(225, 100%, 94%);
+        --bright-blue: hsl(245, 75%, 52%);
+        --very-pale-blue: hsl(225, 100%, 98%);
+        --desaturated-blue: hsl(224, 23%, 55%);
+        --dark-blue: hsl(223, 47%, 23%);
+      }
+      p,
+      h1,
+      h2,
+      h3,
+      h4,
+      h5,
+      h6 {
+        margin: 0;
+      }
+      body {
+        font-family: "Red Hat Display", sans-serif;
+        font-size: 16px;
+        position: relative;
+        width: 100%;
+        height: 100vh;
+        padding: 0px;
+        margin: 0px;
+        background: var(--pale-blue);
+      }
+      main {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+      }
+      .card {
+        width: auto;
+        /* margin: 60px auto; */
+        border-radius: 10px;
+        background: white;
+      }
+      .card .card-body {
+        width: 100%;
+        height: auto;
+        padding: 0 25px;
+        box-sizing: border-box;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+      }
+      .card .card-title {
+        width: 100%;
+        font-weight: 900;
+        color: var(--dark-blue);
+        text-align: center;
+        padding: 15px;
+        box-sizing: border-box;
+      }
+      .card .card-text {
+        width: 100%;
+        color: var(--desaturated-blue);
+        text-align: center;
+        line-height: 25px;
+        padding: 15px 0px;
+        box-sizing: border-box;
+      }
+      .card .card-body .card-plan {
+        display: flex;
+        min-width: 250px;
+        flex-direction: row;
+        align-items: center;
+        column-gap: 15px;
+        background: var(--very-pale-blue);
+        border-radius: 10px;
+        padding: 15px;
+        box-sizing: border-box;
+        margin: 4px;
+      }
+
+      .card .card-body .card-plan .card-plan-text {
+        flex-grow: 6;
+        display: flex;
+        flex-direction: column;
+        row-gap: 4px;
+      }
+      .card .card-body .card-plan .card-plan-text .card-plan-title {
+        color: var(--dark-blue);
+        font-weight: 900;
+        font-size: 14px;
+      }
+      .card .card-body .card-plan .card-plan-text .card-plan-price {
+        color: var(--desaturated-blue);
+        font-size: 14px;
+      }
+
+      .card .card-body .card-plan .card-plan-text-price {
+        flex-grow: 0;
+        display: flex;
+        align-items: flex-end;
+        flex-direction: column;
+        row-gap: 4px;
+      }
+      .card .card-body .card-plan .card-plan-text-price .card-plan-title {
+        color: var(--dark-blue);
+        font-weight: 900;
+        font-size: 14px;
+      }
+      .card .card-body .card-plan .card-plan-text-price .card-plan-price {
+        color: var(--desaturated-blue);
+        font-size: 14px;
+      }
+
+      @media (max-width: 375px) {
+        body {
+          height: auto;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <div id="screen" class="card"></div>
+    </main>
+  </body>
+  <script>
+    async function fectData() {
+      const res = await fetch(`https://track-tes.herokuapp.com/orderimg`);
+      console.log(res.data);
+      return res.data;
+    }
+
+    const info = {
+      shopName: "Vivek's Vender",
+      items: [
+        {
+          id: "1",
+          name: "School Bag",
+          rate: 1500,
+          quantity: 1,
+        },
+        {
+          id: "2",
+          name: "Laptop",
+          rate: 150000,
+          quantity: 1,
+        },
+      ],
+      shipInfo: {
+        name: "Rashika Hali",
+        address: "01, Pinore Park, Sector 21, Gurgaon, Haryana, India, 122002",
+        contactNumber: "+919999999999",
+      },
+      freeShip: {
+        active: true,
+        shipPrice: 0,
+      },
+      subTotal: 151500,
+      discount: 20,
+      taxInfo: 1780,
+      total: 151500,
+    };
+
+    function itemCard(i) {
+      const cardPlan = document.createElement("div");
+      cardPlan.classList.add("card-plan");
+
+      const cradPlanText = document.createElement("div");
+      cradPlanText.classList.add("card-plan-text");
+      cradPlanText.innerHTML = `<div class="card-plan-title">${info?.items[i].name}</div>
+              <div class="card-plan-price"><b>Qty. -</b> ${info?.items[i].quantity}</div>`;
+      const cradPlanTextPrice = document.createElement("div");
+      cradPlanTextPrice.classList.add("card-plan-text-price");
+      cradPlanTextPrice.innerHTML = `<div class="card-plan-title">₹ ${info?.items[i].rate}</div>`;
+
+      cardPlan.appendChild(cradPlanText);
+      cardPlan.appendChild(cradPlanTextPrice);
+
+      return cardPlan;
+    }
+
+    const shopName = document.createElement("div");
+    shopName.classList.add("card-text");
+    shopName.innerText = info?.shopName;
+
+    const orderTitle = document.createElement("div");
+    orderTitle.classList.add("card-title");
+    orderTitle.innerText = "Order Summary";
+
+    const upperBody = document.createElement("div");
+    upperBody.classList.add("card-body");
+
+    for (let i = 0; i < info?.items?.length; i += 1) {
+      const temp = itemCard(i);
+      upperBody.appendChild(temp);
+    }
+
+    const lowerBody = document.createElement("div");
+    lowerBody.classList.add("card-body");
+    lowerBody.style.flexDirection = "row";
+    lowerBody.innerHTML = `<div class="card-plan">
+            <div class="card-plan-text">
+              <div class="card-plan-title">Shipping Information</div>
+              <div class="card-plan-price">
+                <h4>${info?.shipInfo?.name || ""}</h4>
+                <p>${info?.shipInfo?.address || ""}</p>
+              </div>
+              <div class="card-plan-title">Contact Number</div>
+              <div class="card-plan-price">${
+                info?.shipInfo?.contactNumber || ""
+              }</div>
+            </div>
+          </div>
+          <div class="card-plan">
+            <div class="card-plan-text">
+              <div class="card-plan-price">Sub Total</div>
+              <div class="card-plan-price">Tax (Inclusive)</div>
+              <div class="card-plan-price">Discount</div>
+              <div class="card-plan-price">Shipping</div>
+              <div class="card-plan-title">Order Total</div>
+            </div>
+            <div class="card-plan-text-price">
+              <div class="card-plan-price">₹ ${info?.subTotal || ""}</div>
+              <div class="card-plan-price">₹ ${info?.taxInfo || ""}</div>
+              <div class="card-plan-price">₹ ${info?.discount || ""}</div>
+              <div class="card-plan-price">${
+                info?.freeShip?.active
+                  ? "Free"
+                  : "₹" + (info?.freeShip?.shipPrice || "")
+              }</div>
+              <div class="card-plan-title">₹ ${info?.total || ""}</div>
+            </div>
+          </div>`;
+
+    document.getElementById("screen").appendChild(shopName);
+    document.getElementById("screen").appendChild(orderTitle);
+    document.getElementById("screen").appendChild(upperBody);
+    document.getElementById("screen").appendChild(lowerBody);
+  </script>
+</html>

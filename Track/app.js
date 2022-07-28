@@ -11,6 +11,7 @@ let bluedart = require("./api/bluedart.js");
 let dhl = require("./api/dhl.js");
 let delhivery = require("./api/delhivery.js");
 let ithink = require("./api/ithink.js");
+let orderImg = require("./api/orderImg.js");
 // let xpressbees = require("./api/xpressbees.js");
 
 app.use((req, res, next) => {
@@ -31,6 +32,7 @@ app.use("/dhl", dhl);
 app.use("/delhivery", delhivery);
 app.use("/ithink", ithink);
 // app.use("/xpressbees", xpressbees);
+app.use("/orderimg", orderImg);
 
 app.use((req, res, next) => {
   const error = new Error("Not Found");

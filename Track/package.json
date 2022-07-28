@@ -4,7 +4,6 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node server.js"
   },
   "author": "",
@@ -15,7 +14,8 @@
     "express": "^4.16.2",
     "form-data": "^2.3.2",
     "morgan": "^1.9.0",
-    "mysql": "^2.18.1",
+    "path": "^0.12.7",
+    "puppeteer": "^15.5.0",
     "querystring": "^0.2.0",
     "request": "^2.85.0",
     "tabletojson": "github:iaincollins/tabletojson"
