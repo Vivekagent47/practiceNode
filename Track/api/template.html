@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Hello world!</title>
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Red+Hat+Display:wght@500;700;900&display=swap");
+      :root {
+        --pale-blue: hsl(225, 100%, 94%);
+        --bright-blue: hsl(245, 75%, 52%);
+        --very-pale-blue: hsl(225, 100%, 98%);
+        --desaturated-blue: hsl(224, 23%, 55%);
+        --dark-blue: hsl(223, 47%, 23%);
+      }
+      p,
+      h1,
+      h2,
+      h3,
+      h4,
+      h5,
+      h6 {
+        margin: 0;
+      }
+      body {
+        font-family: "Red Hat Display", sans-serif;
+        font-size: 16px;
+        position: relative;
+        width: 100%;
+        height: 100vh;
+        padding: 0px;
+        margin: 0px;
+        background: var(--pale-blue);
+      }
+      main {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+      }
+      .card {
+        width: auto;
+        /* margin: 60px auto; */
+        border-radius: 10px;
+        background: white;
+      }
+      .card .card-body {
+        width: 100%;
+        height: auto;
+        padding: 0 25px;
+        box-sizing: border-box;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+      }
+      .card .card-title {
+        width: 100%;
+        font-weight: 900;
+        color: var(--dark-blue);
+        text-align: center;
+        padding: 15px;
+        box-sizing: border-box;
+      }
+      .card .card-text {
+        width: 100%;
+        color: var(--desaturated-blue);
+        text-align: center;
+        line-height: 25px;
+        padding: 15px 0px;
+        box-sizing: border-box;
+      }
+      .card .card-body .card-plan {
+        display: flex;
+        min-width: 250px;
+        flex-direction: row;
+        align-items: center;
+        column-gap: 15px;
+        background: var(--very-pale-blue);
+        border-radius: 10px;
+        padding: 15px;
+        box-sizing: border-box;
+        margin: 4px;
+      }
+
+      .card .card-body .card-plan .card-plan-text {
+        flex-grow: 6;
+        display: flex;
+        flex-direction: column;
+        row-gap: 4px;
+      }
+      .card .card-body .card-plan .card-plan-text .card-plan-title {
+        color: var(--dark-blue);
+        font-weight: 900;
+        font-size: 14px;
+      }
+      .card .card-body .card-plan .card-plan-text .card-plan-price {
+        color: var(--desaturated-blue);
+        font-size: 14px;
+      }
+
+      .card .card-body .card-plan .card-plan-text-price {
+        flex-grow: 0;
+        display: flex;
+        align-items: flex-end;
+        flex-direction: column;
+        row-gap: 4px;
+      }
+      .card .card-body .card-plan .card-plan-text-price .card-plan-title {
+        color: var(--dark-blue);
+        font-weight: 900;
+        font-size: 14px;
+      }
+      .card .card-body .card-plan .card-plan-text-price .card-plan-price {
+        color: var(--desaturated-blue);
+        font-size: 14px;
+      }
+
+      @media (max-width: 375px) {
+        body {
+          height: auto;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <div class="card" id="screen">
+        <div class="card-text">Vivek</div>
+        <div class="card-title">Order Summary</div>
+        <div class="card-body">
+          <div class="card-plan">
+            <div class="card-plan-text">
+              <div class="card-plan-title">School Bag</div>
+              <div class="card-plan-price">
+                <b>Qyt. - </b>
+                1
+              </div>
+            </div>
+            <div class="card-plan-text-price">
+              <div class="card-plan-title">₹ 1500</div>
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="card-plan">
+            <div class="card-plan-text">
+              <div class="card-plan-title">Shipping Information</div>
+              <div class="card-plan-price">
+                <h4>Vivek Chauhan</h4>
+                <p>
+                  01, Pinore Park, Sector 21, Gurgaon, Haryana, India, 122002
+                </p>
+              </div>
+              <div class="card-plan-title">Contact Information</div>
+              <div class="card-plan-price">+919999998877</div>
+            </div>
+          </div>
+          <div class="card-plan">
+            <div class="card-plan-text">
+              <div class="card-plan-price">Sub Total</div>
+              <div class="card-plan-price">Tax (Inclusive)</div>
+              <div class="card-plan-price">Discount</div>
+              <div class="card-plan-price">Shipping</div>
+              <div class="card-plan-title">Order Total</div>
+            </div>
+            <div class="card-plan-text-price">
+              <div class="card-plan-price">₹ 151500</div>
+              <div class="card-plan-price">₹ 1300</div>
+              <div class="card-plan-price">₹ 500</div>
+              <div class="card-plan-price">Free</div>
+              <div class="card-plan-title">₹ 151500</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </body>
+</html>
+
+const express = require("express"); const router = express.Router(); const
+puppeteer = require("puppeteer"); const resolve = require("path").resolve; var
+pdf = require("html-pdf"); var fs = require("fs"); router.get("/", (req, res) =>
+{ // puppeteer.launch().then(async (browser) => { // const page = await
+browser.newPage(); // await
+page.goto("https://splendid-manatee-f31068.netlify.app/"); // await
+page.setViewport({ // width: 800, // height: 800, // }); // await
+page.screenshot({ path: "nyt-puppeteer.png" }); // await browser.close(); // });
+// res.sendFile(resolve("./nyt-puppeteer.png")); // res.status(400).json({
+error: "error in generating image" }); // var html =
+fs.readFileSync("./template.html", { encoding: "utf8" }); var options = {
+format: "A3", orientation: "portrait", border: "10mm", }; var users = [ { name:
+"Shyam", age: "26", }, { name: "Navjot", age: "26", }, { name: "Vitthal", age:
+"26", }, ]; var document = { html: `<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Hello world!</title>
+  </head>
+  <body
+    style="
+      font-family: 'Red Hat Display', sans-serif;
+      font-size: 16px;
+      position: relative;
+      width: 100%;
+      height: 100vh;
+      padding: 0px;
+      margin: 0px;
+      background: hsl(225, 100%, 94%);
+    "
+  >
+    <main
+      style="
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+      "
+    >
+      <div style="width: auto; border-radius: 10px; background: white">
+        <div
+          style="
+            width: 100%;
+            color: hsl(224, 23%, 55%);
+            text-align: center;
+            line-height: 25px;
+            padding: 15px 0px;
+            box-sizing: border-box;
+          "
+        >
+          Vivek
+        </div>
+        <div
+          style="
+            width: 100%;
+            font-weight: 900;
+            text-align: center;
+            padding: 15px;
+            box-sizing: border-box;
+            color: hsl(223, 47%, 23%);
+          "
+        >
+          Order Summary
+        </div>
+        <div
+          style="
+            width: 100%;
+            height: auto;
+            padding: 0 25px;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+          "
+        >
+          <div
+            style="
+              display: flex;
+              min-width: 250px;
+              flex-direction: row;
+              align-items: center;
+              column-gap: 15px;
+              background: hsl(225, 100%, 98%);
+              border-radius: 10px;
+              padding: 15px;
+              box-sizing: border-box;
+              margin: 4px;
+            "
+          >
+            <div
+              style="
+                flex-grow: 6;
+                display: flex;
+                flex-direction: column;
+                row-gap: 4px;
+              "
+            >
+              <div
+                style="
+                  color: hsl(223, 47%, 23%);
+                  font-weight: 900;
+                  font-size: 14px;
+                "
+              >
+                School Bag
+              </div>
+              <div style="color: hsl(224, 23%, 55%); font-size: 14px">
+                <b>Qyt. - </b>
+                1
+              </div>
+            </div>
+            <div
+              style="
+                flex-grow: 0;
+                display: flex;
+                align-items: flex-end;
+                flex-direction: column;
+                row-gap: 4px;
+              "
+            >
+              <div
+                style="
+                  color: hsl(223, 47%, 23%);
+                  font-weight: 900;
+                  font-size: 14px;
+                "
+              >
+                ₹ 1500
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          style="
+            width: 100%;
+            height: auto;
+            padding: 0 25px;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+          "
+        >
+          <div
+            style="
+              display: flex;
+              min-width: 250px;
+              flex-direction: row;
+              align-items: center;
+              column-gap: 15px;
+              background: hsl(225, 100%, 98%);
+              border-radius: 10px;
+              padding: 15px;
+              box-sizing: border-box;
+              margin: 4px;
+            "
+          >
+            <div
+              style="
+                flex-grow: 6;
+                display: flex;
+                flex-direction: column;
+                row-gap: 4px;
+              "
+            >
+              <div
+                style="
+                  color: hsl(223, 47%, 23%);
+                  font-weight: 900;
+                  font-size: 14px;
+                "
+              >
+                Shipping Information
+              </div>
+              <div style="color: hsl(224, 23%, 55%); font-size: 14px">
+                <h4>Vivek Chauhan</h4>
+                <p>
+                  01, Pinore Park, Sector 21, Gurgaon, Haryana, India, 122002
+                </p>
+              </div>
+              <div
+                style="
+                  color: hsl(223, 47%, 23%);
+                  font-weight: 900;
+                  font-size: 14px;
+                "
+              >
+                Contact Information
+              </div>
+              <div style="color: hsl(224, 23%, 55%); font-size: 14px">
+                +919999998877
+              </div>
+            </div>
+          </div>
+          <div
+            style="
+              display: flex;
+              min-width: 250px;
+              flex-direction: row;
+              align-items: center;
+              column-gap: 15px;
+              background: hsl(225, 100%, 98%);
+              border-radius: 10px;
+              padding: 15px;
+              box-sizing: border-box;
+              margin: 4px;
+            "
+          >
+            <div
+              style="
+                flex-grow: 6;
+                display: flex;
+                flex-direction: column;
+                row-gap: 4px;
+              "
+            >
+              <div style="color: hsl(224, 23%, 55%); font-size: 14px">
+                Sub Total
+              </div>
+              <div style="color: hsl(224, 23%, 55%); font-size: 14px">
+                Tax (Inclusive)
+              </div>
+              <div style="color: hsl(224, 23%, 55%); font-size: 14px">
+                Discount
+              </div>
+              <div style="color: hsl(224, 23%, 55%); font-size: 14px">
+                Shipping
+              </div>
+              <div
+                style="
+                  color: hsl(223, 47%, 23%);
+                  font-weight: 900;
+                  font-size: 14px;
+                "
+              >
+                Order Total
+              </div>
+            </div>
+            <div
+              style="
+                flex-grow: 0;
+                display: flex;
+                align-items: flex-end;
+                flex-direction: column;
+                row-gap: 4px;
+              "
+            >
+              <div style="color: hsl(224, 23%, 55%); font-size: 14px">
+                ₹ 151500
+              </div>
+              <div style="color: hsl(224, 23%, 55%); font-size: 14px">
+                ₹ 1300
+              </div>
+              <div style="color: hsl(224, 23%, 55%); font-size: 14px">
+                ₹ 500
+              </div>
+              <div style="color: hsl(224, 23%, 55%); font-size: 14px">Free</div>
+              <div
+                style="
+                  color: hsl(223, 47%, 23%);
+                  font-weight: 900;
+                  font-size: 14px;
+                "
+              >
+                ₹ 151500
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </body>
+</html>
+`, data: { users: users, }, path: "./output.pdf", type: "", }; pdf
+.create(document, options) .then((result) => { res.status(200).json({ users });
+console.log(result); }) .catch((err) => { res.status(400).json({ err });
+console.log(err); }); }); module.exports = router;
