@@ -70,21 +70,33 @@ router.post("/", (req, res) => {
   mainCtx.textAlign = "left";
   mainCtx.fillText("Name", 30, yCord + 30);
   mainCtx.fillText("Quantity", 230, yCord + 30);
-  mainCtx.fillText("Rate", 430, yCord + 30);
-  mainCtx.fillText("Price", 630, yCord + 30);
+  mainCtx.fillText("Rate", 460, yCord + 30);
+  mainCtx.fillText("Price", 700, yCord + 30);
   yCord = yCord + 50;
   mainCtx.fillRect(10, yCord, 780, 1);
   yCord = yCord + 30;
 
   for (let i = 0; i < data.items.length; i++) {
     mainCtx.fillStyle = "#000";
+    mainCtx.textAlign = "left";
     mainCtx.font = "18px Arial";
     mainCtx.fillText(data.items[i].name, 30, yCord);
-    mainCtx.fillText(data.items[i].quantity, 230, yCord);
-    mainCtx.fillText(data.items[i].rate, 430, yCord);
+    mainCtx.textAlign = "right";
     mainCtx.fillText(
-      parseInt(data.items[i].rate) * parseInt(data.items[i].quantity),
-      630,
+      data.items[i].quantity.toLocaleString("en-IN"),
+      290,
+      yCord
+    );
+    mainCtx.fillText(
+      `₹ ${data.items[i].rate.toLocaleString("en-IN")}`,
+      500,
+      yCord
+    );
+    mainCtx.fillText(
+      `₹ ${(
+        parseInt(data.items[i].rate) * parseInt(data.items[i].quantity)
+      ).toLocaleString("en-IN")}`,
+      750,
       yCord
     );
 
@@ -94,6 +106,7 @@ router.post("/", (req, res) => {
   mainCtx.fillRect(10, yCord, 780, 1);
   yCord = yCord + 30;
 
+  mainCtx.textAlign = "left";
   mainCtx.font = "bold 20px Arial";
   mainCtx.fillText("Shipping Info :", 30, yCord);
   yCord = yCord + 30;
@@ -109,43 +122,55 @@ router.post("/", (req, res) => {
   yCord = yCord + 30;
   if (address[2]) mainCtx.fillText(address[2], 30, yCord);
 
-  yCord = yCord + 30;
+  yCord = yCord + 60;
   mainCtx.font = "bold 20px Arial";
   mainCtx.fillText("Contact Info. :", 30, yCord);
   yCord = yCord + 30;
   mainCtx.font = "18px Arial";
   mainCtx.fillText(data.shipInfo.contactNumber, 30, yCord);
+  yCord = yCord + 30;
+  mainCtx.fillText(data.shipInfo.email, 30, yCord);
 
-  yCord = yCord - 180;
-  mainCtx.fillText("Sub Total", 400, yCord);
-  mainCtx.fillText(data.subTotal, 600, yCord);
+  yCord = yCord - 240;
+  mainCtx.fillText("Sub Total", 430, yCord);
+  mainCtx.textAlign = "right";
+  mainCtx.fillText(`₹ ${data.subTotal.toLocaleString("en-IN")}`, 750, yCord);
   yCord = yCord + 30;
 
-  mainCtx.fillText("Tax (Inclusive)", 400, yCord);
-  mainCtx.fillText(data.taxInfo, 600, yCord);
+  mainCtx.textAlign = "left";
+  mainCtx.fillText("Tax (Inclusive)", 430, yCord);
+  mainCtx.textAlign = "right";
+  mainCtx.fillText(`₹ ${data.taxInfo.toLocaleString("en-IN")}`, 750, yCord);
   yCord = yCord + 30;
 
-  mainCtx.fillText("Discount", 400, yCord);
-  mainCtx.fillText(data.discount, 600, yCord);
+  mainCtx.textAlign = "left";
+  mainCtx.fillText("Discount", 430, yCord);
+  mainCtx.textAlign = "right";
+  mainCtx.fillText(`₹ ${data.discount.toLocaleString("en-IN")}`, 750, yCord);
   yCord = yCord + 30;
 
-  mainCtx.fillText("Shipping", 400, yCord);
+  mainCtx.textAlign = "left";
+  mainCtx.fillText("Shipping", 430, yCord);
+  mainCtx.textAlign = "right";
   mainCtx.fillText(
-    data.freeShip === "free" ? "Free" : data.freeShip,
-    600,
+    data.freeShip === "free"
+      ? "Free"
+      : `₹ ${data.freeShip.toLocaleString("en-IN")}`,
+    750,
     yCord
   );
   yCord = yCord + 30;
 
+  mainCtx.textAlign = "left";
   mainCtx.font = "bold 18px Arial";
-  mainCtx.fillText("Total", 400, yCord);
-  mainCtx.fillText(data.total, 600, yCord);
+  mainCtx.fillText("Total", 430, yCord);
+  mainCtx.textAlign = "right";
+  mainCtx.fillText(`₹ ${data.total.toLocaleString("en-IN")}`, 750, yCord);
   yCord = yCord + 30;
 
   const buffer = mainCanvas.toBuffer("image/png");
   fs.writeFileSync("./image.png", buffer);
 
-  // res.writeHead(200, { "Content-type": "image/png" });
   res.status(200).sendFile(resolve("image.png"));
 });
 
