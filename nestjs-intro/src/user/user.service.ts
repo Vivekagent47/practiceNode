@@ -3,11 +3,14 @@ import { InjectRepository } from "@nestjs/typeorm";
 import { CreateUserDto, LoginDto } from "../dtos/user.dto";
 import { User } from "../entities/user.entity";
 import { Repository } from "typeorm";
+import { JwtService } from "@nestjs/jwt";
 
 @Injectable()
 export class UserService {
   constructor(
     @InjectRepository(User) private readonly userRepository: Repository<User>,
+
+    private readonly jwtService: JwtService,
   ) {}
 
   async createUser(userData: CreateUserDto): Promise<User> {
@@ -22,6 +25,16 @@ export class UserService {
       user.userType = userData.userType;
 
       return await this.userRepository.save(user);
+    } catch (err) {
+      throw new HttpException(err.message, HttpStatus.BAD_REQUEST);
+    }
+  }
+
+  async findById(id: string): Promise<User> {
+    try {
+      const data = await this.userRepository.findOne({ where: { id: id } });
+      delete data.password;
+      return data;
     } catch (err) {
       throw new HttpException(err.message, HttpStatus.BAD_REQUEST);
     }
@@ -42,21 +55,27 @@ export class UserService {
 
   async login(loginCred: LoginDto) {
     try {
-      const data = await this.userRepository.findOne({
-        where: { email: loginCred.email },
-      });
-      if (!data) {
-        throw new Error("User not found");
-      }
+      const user = await this.validateUser(loginCred.email, loginCred.password);
 
-      const isMatch = data.validatePassword(loginCred.password);
-      if (!isMatch) {
-        throw new Error("Invalid Password");
+      if (user) {
+        const accessToken = this.jwtService.sign({
+          type: "access",
+          email: user.email,
+          userType: user.userType,
+          userId: user.id,
+        });
+        return { accessToken };
       }
-      delete data.password;
-      return data;
     } catch (err) {
       throw new HttpException(err.message, HttpStatus.BAD_REQUEST);
     }
+  }
+
+  async validateUser(email: string, pass: string): Promise<User> {
+    const user = await this.userRepository.findOne({ where: { email: email } });
+    if (user && user.validatePassword(pass)) {
+      return user;
+    }
+    throw new Error("Invalid Cred");
   }
 }
