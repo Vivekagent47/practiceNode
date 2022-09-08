@@ -3,6 +3,7 @@ import {
   IsEnum,
   IsNotEmpty,
   IsOptional,
+  Matches,
   MaxLength,
 } from "class-validator";
 
@@ -22,6 +23,9 @@ export class CreateUserDto {
   email: string;
 
   @IsNotEmpty()
+  @Matches(
+    /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
+  )
   password: string;
 
   @IsNotEmpty()

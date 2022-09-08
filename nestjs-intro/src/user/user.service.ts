@@ -24,7 +24,9 @@ export class UserService {
       user.gender = userData.gender;
       user.userType = userData.userType;
 
-      return await this.userRepository.save(user);
+      const data = await this.userRepository.save(user);
+      delete data.password;
+      return data;
     } catch (err) {
       throw new HttpException(err.message, HttpStatus.BAD_REQUEST);
     }
@@ -64,7 +66,9 @@ export class UserService {
           userType: user.userType,
           userId: user.id,
         });
-        return { accessToken };
+
+        delete user.password;
+        return { accessToken, user };
       }
     } catch (err) {
       throw new HttpException(err.message, HttpStatus.BAD_REQUEST);
