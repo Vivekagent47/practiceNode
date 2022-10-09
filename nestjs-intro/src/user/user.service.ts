@@ -8,21 +8,14 @@ import { JwtService } from "@nestjs/jwt";
 @Injectable()
 export class UserService {
   constructor(
-    @InjectRepository(User) private readonly userRepository: Repository<User>,
+    @InjectRepository(User) private userRepository: Repository<User>,
 
     private readonly jwtService: JwtService,
   ) {}
 
   async createUser(userData: CreateUserDto): Promise<User> {
     try {
-      const user = new User();
-      user.firstName = userData.firstName;
-      user.lastName = userData.lastName;
-      user.email = userData.email;
-      user.password = userData.password;
-      user.mobileNumber = userData.mobileNumber || null;
-      user.gender = userData.gender;
-      user.userType = userData.userType;
+      const user = await this.userRepository.create(userData);
 
       const data = await this.userRepository.save(user);
       delete data.password;
@@ -76,7 +69,11 @@ export class UserService {
   }
 
   async validateUser(email: string, pass: string): Promise<User> {
-    const user = await this.userRepository.findOne({ where: { email: email } });
+    // const user = await this.userRepository.findOne({ where: { email: email } });
+    const user = await this.userRepository
+      .createQueryBuilder()
+      .where("email = :email", { email: email })
+      .getOne();
     if (user && user.validatePassword(pass)) {
       return user;
     }

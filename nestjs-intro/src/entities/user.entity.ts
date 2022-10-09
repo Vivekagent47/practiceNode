@@ -3,26 +3,20 @@ import {
   Column,
   Unique,
   BeforeInsert,
-  CreateDateColumn,
-  UpdateDateColumn,
   PrimaryGeneratedColumn,
   BaseEntity,
+  OneToOne,
+  JoinColumn,
 } from "typeorm";
 import * as bcrypt from "bcryptjs";
+import { Profile } from "./profile.entity";
 
 type userType = "customer" | "consumer";
-type userGender = "male" | "female";
 
 @Entity()
 export class User extends BaseEntity {
   @PrimaryGeneratedColumn("uuid")
   id: string;
-
-  @Column({ length: 50, nullable: false })
-  firstName: string;
-
-  @Column({ length: 50, nullable: false })
-  lastName: string;
 
   @Unique("email", ["email"])
   @Column({ length: 320, nullable: false })
@@ -30,16 +24,6 @@ export class User extends BaseEntity {
 
   @Column({ nullable: false })
   password: string;
-
-  @Column({ nullable: true })
-  mobileNumber: string;
-
-  @Column({
-    type: "enum",
-    enum: ["male", "female"],
-    default: "male",
-  })
-  gender: userGender;
 
   @Column({
     type: "enum",
@@ -51,11 +35,9 @@ export class User extends BaseEntity {
   @Column({ default: true })
   isActive: boolean;
 
-  @CreateDateColumn()
-  createdAt: Date;
-
-  @UpdateDateColumn()
-  updatedAt: Date;
+  @OneToOne(() => Profile, (profile) => profile.user, { cascade: true })
+  @JoinColumn()
+  profile: Profile;
 
   @BeforeInsert()
   async hashPassword() {

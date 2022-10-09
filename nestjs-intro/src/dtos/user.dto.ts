@@ -2,15 +2,9 @@ import {
   IsEmail,
   IsEnum,
   IsNotEmpty,
-  IsOptional,
   Matches,
   MaxLength,
 } from "class-validator";
-
-enum userGender {
-  male = "male",
-  female = "female",
-}
 
 enum userType {
   customer = "customer",
@@ -27,21 +21,6 @@ export class CreateUserDto {
     /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
   )
   password: string;
-
-  @IsNotEmpty()
-  @MaxLength(50)
-  readonly firstName: string;
-
-  @IsNotEmpty()
-  @MaxLength(50)
-  readonly lastName: string;
-
-  @IsOptional()
-  @MaxLength(14)
-  readonly mobileNumber: string;
-
-  @IsEnum(userGender)
-  readonly gender: userGender;
 
   @IsEnum(userType)
   readonly userType: userType;
